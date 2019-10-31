@@ -395,8 +395,8 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h2 id="什么是vue"><a href="#什么是vue" class="headerlink" title="什么是vue"></a>什么是vue</h2><p>是一套构建用户界面的渐进式（用到哪一块就用哪一块，不需要全部用上）前端框架，Vue 的核心库只关注视图层<br> <img src="./images/591234-20170823125934168-1933373775%5B0%5D.png" alt="enter description here"></p>
-<p><strong>vue学习资源</strong></p>
+        <h2 id="什么是vue"><a href="#什么是vue" class="headerlink" title="什么是vue"></a>什么是vue</h2><p>是一套构建用户界面的渐进式（用到哪一块就用哪一块，不需要全部用上）前端框架，Vue 的核心库只关注视图层</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a><img src="https://images2017.cnblogs.com/blog/591234/201708/591234-20170823125934168-1933373775.png" alt="Vue"></h1><p><strong>vue学习资源</strong></p>
 <p>vue.js中文官网：<a href="http://cn.vuejs.org/" target="_blank" rel="noopener">http://cn.vuejs.org/</a><br>vue.js源码：<a href="https://github.com/vuejs/vue" target="_blank" rel="noopener">https://github.com/vuejs/vue</a><br>vue.js官方工具：<a href="https://github.com/vuejs" target="_blank" rel="noopener">https://github.com/vuejs</a><br>vue.js官方论坛：forum.vuejs.org</p>
 <h2 id="对比其他框架-React"><a href="#对比其他框架-React" class="headerlink" title="对比其他框架-React"></a>对比其他框架-React</h2><p>React 和 Vue 有许多相似之处，它们都有使用 Virtual DOM；提供了响应式（Reactive）和组件化（Composable）的视图组件。将注意力集中保持在核心库，而将其他功能如路由和全局状态管理交给相关的库。React 比 Vue 有更丰富的生态系统</p>
 <p>都有支持native的方案，React的RN，vue的Wee下</p>
@@ -415,17 +415,17 @@ height:50vh;
 <p>灵活性：Vue 相比于 Angular 更加灵活，Vue 官方提供了构建工具来协助你构建项目，但它并不限制你去如何组织你的应用代码。有人可能喜欢有严格的代码组织规范，但也有开发者喜欢更灵活自由的方式。</p>
 <p>  <strong>Vue.js的核心特点—响应的数据绑定</strong></p>
 <p>传统的js操作页面：在以前使用js操作页面的时候是这样的，需要操作某个html元素的数据，就的使用js代码获取元素然后在处理业务逻辑</p>
-<p><img src="./images/591234-20170823130247355-2029279288.png" alt="enter description here"></p>
+<p><img src="https://images2017.cnblogs.com/blog/591234/201708/591234-20170823130247355-2029279288.png" alt="数据绑定"></p>
 <p>响应式数据绑定的方式操作页面，可以直接使用像下面代码那样的写法就可以将数据填充到页面中</p>
-<p><img src="./images/591234-20170823130337621-1629696925.png" alt="enter description here"></p>
+<p><img src="https://images2017.cnblogs.com/blog/591234/201708/591234-20170823130337621-1629696925.png" alt="数据绑定"></p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;<span class="selector-tag">div</span> id=<span class="string">"app"</span>&gt;</span><br><span class="line">    &#123;&#123; message &#125;&#125;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"> </span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: <span class="string">'app'</span>,</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      message: <span class="string">'Welcome to Your Vue.js App'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"> </span><br><span class="line">&lt;style&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="vue-js的核心特点—虚拟DOM"><a href="#vue-js的核心特点—虚拟DOM" class="headerlink" title="vue.js的核心特点—虚拟DOM"></a>vue.js的核心特点—虚拟DOM</h2><p><strong>虚拟DOM的概述</strong></p>
 <p>运行的js速度是很快的，大量的操作DOM就会很慢，时常在更新数据后会重新渲染页面，这样造成在没有改变数据的地方也重新渲染了DOM节点，这样就造成了很大程度上的资源浪费。</p>
 <p>利用在内存中生成与真实DOM与之对应的数据结构，这个在内存中生成的结构称之为虚拟DOM</p>
 <p>当数据发生变化时，能够智能地计算出重新渲染组件的最小代价并应用到DOM操作上</p>
 <h2 id="vue-js的核心特点—可组合的视图组件"><a href="#vue-js的核心特点—可组合的视图组件" class="headerlink" title="vue.js的核心特点—可组合的视图组件"></a>vue.js的核心特点—可组合的视图组件</h2><p>一个页面映射为组件树。划分组件可维护、可重用、可测试，也就是一个页面由多个组件组合而成</p>
-<h2 id="vue-js的核心特点—MVVM模式"><a href="#vue-js的核心特点—MVVM模式" class="headerlink" title="vue.js的核心特点—MVVM模式"></a>vue.js的核心特点—MVVM模式</h2><p>MVVM概述：M：Model数据模型 ， V：view 视图模板  ， vm：view-Model：视图模型<br><img src="./images/591234-20170823141743589-18567879_1.png" alt="enter description here"></p>
-<h2 id="vue-js的核心特点—声明式渲染"><a href="#vue-js的核心特点—声明式渲染" class="headerlink" title="vue.js的核心特点—声明式渲染"></a>vue.js的核心特点—声明式渲染</h2><p>Vue.js 的核心是一个允许采用简洁的模板语法来声明式的将数据渲染进 DOM，初始化根实例，vue自动将数据绑定在DOM模板上</p>
+<h2 id="vue-js的核心特点—MVVM模式"><a href="#vue-js的核心特点—MVVM模式" class="headerlink" title="vue.js的核心特点—MVVM模式"></a>vue.js的核心特点—MVVM模式</h2><p>MVVM概述：M：Model数据模型 ， V：view 视图模板  ， vm：view-Model：视图模型</p>
+<h1 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://images2017.cnblogs.com/blog/591234/201708/591234-20170823141743589-18567879.png" alt="MVVM"></h1><h2 id="vue-js的核心特点—声明式渲染"><a href="#vue-js的核心特点—声明式渲染" class="headerlink" title="vue.js的核心特点—声明式渲染"></a>vue.js的核心特点—声明式渲染</h2><p>Vue.js 的核心是一个允许采用简洁的模板语法来声明式的将数据渲染进 DOM，初始化根实例，vue自动将数据绑定在DOM模板上</p>
 <p>声明式渲染与命令式渲染区别</p>
 <p><strong>声明式渲染</strong>：所谓声明式渲染只需要声明在哪里，做什么，而无需关心如何实现</p>
 <p><strong>命令式渲染</strong>：需要具体代码表达在哪里，做什么，如何实践</p>
@@ -437,8 +437,8 @@ height:50vh;
         <div class="license-wrapper">
             <p>原文作者：<a href="http://yoursite.com">LZ</a>
             <p>原文链接：<a href="http://yoursite.com/2019/10/31/%E5%89%8D%E7%AB%AF%E4%B8%89%E5%A4%A7%E6%A1%86%E6%9E%B6Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/">http://yoursite.com/2019/10/31/%E5%89%8D%E7%AB%AF%E4%B8%89%E5%A4%A7%E6%A1%86%E6%9E%B6Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/</a>
-            <p>发表日期：<a href="http://yoursite.com/2019/10/31/%E5%89%8D%E7%AB%AF%E4%B8%89%E5%A4%A7%E6%A1%86%E6%9E%B6Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/">October 31st 2019, 4:24:48 pm</a>
-            <p>更新日期：<a href="http://yoursite.com/2019/10/31/%E5%89%8D%E7%AB%AF%E4%B8%89%E5%A4%A7%E6%A1%86%E6%9E%B6Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/">October 31st 2019, 5:28:01 pm</a>
+            <p>发表日期：<a href="http://yoursite.com/2019/10/31/%E5%89%8D%E7%AB%AF%E4%B8%89%E5%A4%A7%E6%A1%86%E6%9E%B6Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/">October 31st 2019, 4:02:21 pm</a>
+            <p>更新日期：<a href="http://yoursite.com/2019/10/31/%E5%89%8D%E7%AB%AF%E4%B8%89%E5%A4%A7%E6%A1%86%E6%9E%B6Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/">October 31st 2019, 5:43:27 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -570,7 +570,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是vue"><span class="toc-number">1.</span> <span class="toc-text">什么是vue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对比其他框架-React"><span class="toc-number">2.</span> <span class="toc-text">对比其他框架-React</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对比其他框架-angular"><span class="toc-number">3.</span> <span class="toc-text">对比其他框架-angular</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-js的核心特点—虚拟DOM"><span class="toc-number">4.</span> <span class="toc-text">vue.js的核心特点—虚拟DOM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-js的核心特点—可组合的视图组件"><span class="toc-number">5.</span> <span class="toc-text">vue.js的核心特点—可组合的视图组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-js的核心特点—MVVM模式"><span class="toc-number">6.</span> <span class="toc-text">vue.js的核心特点—MVVM模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-js的核心特点—声明式渲染"><span class="toc-number">7.</span> <span class="toc-text">vue.js的核心特点—声明式渲染</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是vue"><span class="toc-number">1.</span> <span class="toc-text">什么是vue</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#null"><span class="toc-number"></span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对比其他框架-React"><span class="toc-number">1.</span> <span class="toc-text">对比其他框架-React</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对比其他框架-angular"><span class="toc-number">2.</span> <span class="toc-text">对比其他框架-angular</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-js的核心特点—虚拟DOM"><span class="toc-number">3.</span> <span class="toc-text">vue.js的核心特点—虚拟DOM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-js的核心特点—可组合的视图组件"><span class="toc-number">4.</span> <span class="toc-text">vue.js的核心特点—可组合的视图组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-js的核心特点—MVVM模式"><span class="toc-number">5.</span> <span class="toc-text">vue.js的核心特点—MVVM模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-1"><span class="toc-number"></span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-js的核心特点—声明式渲染"><span class="toc-number">1.</span> <span class="toc-text">vue.js的核心特点—声明式渲染</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -619,12 +619,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/31</span><a class="archive-post-title" href= "/2019/10/31/%E5%89%8D%E7%AB%AF%E4%B8%89%E5%A4%A7%E6%A1%86%E6%9E%B6Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/" >前端三大框架Vue框架详解</a>
+            <span class="archive-post-date">10/31</span><a class="archive-post-title" href= "/2019/10/31/%E5%85%B3%E4%BA%8EHTTP%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84/" >关于HTTP你需要了解的</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/31</span><a class="archive-post-title" href= "/2019/10/31/%E5%85%B3%E4%BA%8EHTTP%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84/" >关于HTTP你需要了解的</a>
+            <span class="archive-post-date">10/31</span><a class="archive-post-title" href= "/2019/10/31/%E5%89%8D%E7%AB%AF%E4%B8%89%E5%A4%A7%E6%A1%86%E6%9E%B6Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/" >前端三大框架Vue框架详解</a>
         </li>
     
     </div>
