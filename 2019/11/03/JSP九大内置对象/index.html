@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="LZ">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LZ">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>JSP九大内置对象 · fi3ework&#39;s Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >fi3ework&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">JSP九大内置对象</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>fi3ework's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            JSP九大内置对象
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">4.3k</span>阅读时长: <span class="post-count reading-time">17 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/11/03</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="JSP九大内置对象详解"><a href="#JSP九大内置对象详解" class="headerlink" title="JSP九大内置对象详解"></a>JSP九大内置对象详解</h3><ul>
+<li><p>JSP内置对象(9个内置对象):<br>1.PageContext javax.servlet.jsp.PageContext JSP的页面容器<br>2.request    javax.servlet.http.HttpServletrequest 获取用户的请求信息<br>3.response javax.servlet.http.HttpServletResponse 服务器向客户端的回应信息<br>4.session javax.servlet.http.HttpSession 用来保存每一个用户的信息<br>5.application javax.servlet.ServletContext 表示所有用户的共享信息<br>6.config javax.servlet.ServletConfig 服务器配置信息，可以取得初始化参数<br>7.out javax.servlet.jsp.jspWriter 页面输出<br>8.page java.lang.object)<br>9.exception java.lang.Throwable </p>
+</li>
+<li><h5 id="四种属性范围"><a href="#四种属性范围" class="headerlink" title="四种属性范围:"></a>四种属性范围:</h5><p>page(pageContext):只在一个页面中保存属性。 跳转之后无效。<br>request:只在一次请求中有效，服务器跳转之后有效。 客户端跳无效<br>session:再一次会话中有效。服务器跳转、客户端跳转都有效。 网页关闭重新打开无效<br>application:在整个服务器上保存，所有用户都可使用。 重启服务器后无效<br>注意：如果设置过多的application属性范围会影响服务器性能。</p>
+</li>
+</ul>
+<ul>
+<li><h4 id="Request常用的方法："><a href="#Request常用的方法：" class="headerlink" title="Request常用的方法："></a>Request常用的方法：</h4><ol>
+<li>01 getParameter(String strTextName) 获取表单提交的信息。</li>
+</ol>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String strName＝request.getParameter(<span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>02 getProtocol() 获取客户使用的协议。 </li>
+</ol>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String strProtocol=request.getProtocol();</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>03 getServletPath() 获取客户提交信息的页面。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`String strServlet=request.getServletPath();`</span><br></pre></td></tr></table></figure>
+
+<p> 1.04 getMethod() 获取客户提交信息的方式，get|post。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`String strMethod = request.getMethod();`</span><br></pre></td></tr></table></figure>
+
+<p>  1.05 getHeade() 获取HTTP头文件中的accept、accept-encoding和Host的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`String strHeader = request.getHeader(&quot;accept&quot;);`</span><br></pre></td></tr></table></figure>
+
+<p>  1.06 getRermoteAddr() 获取客户的IP地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`String strIP = request.getRemoteAddr();`</span><br></pre></td></tr></table></figure>
+
+<p>  1.07 getRemoteHost() 获取客户机的名称。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`String clientName = request.getRemoteHost();`</span><br></pre></td></tr></table></figure>
+
+<p>  1.08 getServerName() 获取服务器名称。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`String serverName = request.getServerName();`</span><br></pre></td></tr></table></figure>
+
+<p>  1.09 getServerPort() 获取服务器的端口号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`int serverPort = request.getServerPort();`</span><br></pre></td></tr></table></figure>
+
+<p>  1.10 getParameterNames() 获取客户端提交的所有参数的名字。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`Enumeration enum = request.getParameterNames();while(enum.hasMoreElements())&#123;  String s=(String)enum.nextElement();  out.println(s);&#125;`</span><br></pre></td></tr></table></figure>
+
+<p> 1.11 getHeaderNames()   取出全部头信息。</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  　　&lt;%</span><br><span class="line">  　　Enumeration enu = request.getHeaderNames();<span class="comment">//取出全部头信息</span></span><br><span class="line">  　　<span class="keyword">while</span>(enu.hasMoreElements())&#123;</span><br><span class="line">  　　String name = (String)enu.nextElement();</span><br><span class="line">  　　String value = request.getHeader(name);</span><br><span class="line">  　　%&gt;</span><br><span class="line">  　　&lt;h1&gt;&lt;%=name %&gt;--&lt;%=value %&gt;&lt;/h1&gt;</span><br><span class="line">  　　&lt;%    </span><br><span class="line">  　　&#125;</span><br><span class="line">  　　%&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="1、request对象"><a href="#1、request对象" class="headerlink" title="1、request对象"></a>1、request对象</h3><p>request 对象是 javax.servlet.httpServletRequest类型的对象。 该对象代表了客户端的请求信息，主要用于接受通过HTTP协议传送到服务器的数据。（包括头信息、系统信息、请求方式以及请求参数等）。request对象的作用域为一次请求。</p>
+<h3 id="2、response对象"><a href="#2、response对象" class="headerlink" title="2、response对象"></a><em>2、response对象</em></h3><p>response 代表的是对客户端的响应，主要是将JSP容器处理过的对象传回到客户端。response对象也具有作用域，它只在JSP页面内有效。</p>
+<h3 id="3、session对象"><a href="#3、session对象" class="headerlink" title="3、session对象"></a>3、session对象</h3><p>session 对象是由服务器自动创建的与用户请求相关的对象。服务器为每个用户都生成一个session对象，用于保存该用户的信息，跟踪用户的操作状态。session对象内部使用Map类来保存数据，因此保存数据的格式为 “Key/value”。 session对象的value可以使复杂的对象类型，而不仅仅局限于字符串类型。</p>
+<h3 id="4、application对象"><a href="#4、application对象" class="headerlink" title="4、application对象"></a>4、application对象</h3><p> application 对象可将信息保存在服务器中，直到服务器关闭，否则application对象中保存的信息会在整个应用中都有效。与session对象相比，application对象生命周期更长，类似于系统的“全局变量”。</p>
+<h3 id="5、out-对象"><a href="#5、out-对象" class="headerlink" title="5、out 对象"></a>5、out 对象</h3><p>out 对象用于在Web浏览器内输出信息，并且管理应用服务器上的输出缓冲区。在使用 out 对象输出数据时，可以对数据缓冲区进行操作，及时清除缓冲区中的残余数据，为其他的输出让出缓冲空间。待数据输出完毕后，要及时关闭输出流。</p>
+<h3 id="6、pageContext-对象"><a href="#6、pageContext-对象" class="headerlink" title="6、pageContext 对象"></a>6、pageContext 对象</h3><p>pageContext 对象的作用是取得任何范围的参数，通过它可以获取 JSP页面的out、request、reponse、session、application 等对象。pageContext对象的创建和初始化都是由容器来完成的，在JSP页面中可以直接使用 pageContext对象。</p>
+<h3 id="7、config-对象"><a href="#7、config-对象" class="headerlink" title="7、config 对象"></a>7、config 对象</h3><p>config 对象的主要作用是取得服务器的配置信息。通过 pageConext对象的 getServletConfig() 方法可以获取一个config对象。当一个Servlet 初始化时，容器把某些信息通过 config对象传递给这个 Servlet。 开发者可以在web.xml 文件中为应用程序环境中的Servlet程序和JSP页面提供初始化参数。</p>
+<h3 id="8、page-对象"><a href="#8、page-对象" class="headerlink" title="8、page 对象"></a>8、page 对象</h3><p>page 对象代表JSP本身，只有在JSP页面内才是合法的。 page隐含对象本质上包含当前 Servlet接口引用的变量，类似于Java编程中的 this 指针。</p>
+<h3 id="9、exception-对象"><a href="#9、exception-对象" class="headerlink" title="9、exception 对象"></a>9、exception 对象</h3><p>exception 对象的作用是显示异常信息，只有在包含 isErrorPage=”true” 的页面中才可以被使用，在一般的JSP页面中使用该对象将无法编译JSP文件。excepation对象和Java的所有对象一样，都具有系统提供的继承结构。exception 对象几乎定义了所有异常情况。在Java程序中，可以使用try/catch关键字来处理异常情况； 如果在JSP页面中出现没有捕获到的异常，就会生成 exception 对象，并把 exception 对象传送到在page指令中设定的错误页面中，然后在错误页面中处理相应的 exception 对象。</p>
+<p>====================================================================================================================================</p>
+<p>JSP有九个内置对象（又叫隐含对象），不需要预先声明就可以在脚本代码和表达式中随意使用</p>
+<p>JSP九大内置对象分为四类：</p>
+<ul>
+<li>输入输出对象：out对象、response对象、request对象</li>
+<li>通信控制对象：pageContext对象、session对象、application对象</li>
+<li>Servlet对象:page对象、config对象</li>
+<li>错误处理对象：exception对象</li>
+</ul>
+<p>九种对象简介：</p>
+<ol>
+<li><p><strong>out对象</strong>：用于向客户端、浏览器输出数据。</p>
+</li>
+<li><p><strong>request对象</strong>：封装了来自客户端、浏览器的各种信息。</p>
+</li>
+<li><p><strong>response对象</strong>：封装了服务器的响应信息。</p>
+</li>
+<li><p><strong>exception对象</strong>：封装了jsp程序执行过程中发生的异常和错误信息。</p>
+</li>
+<li><p><strong>config对象</strong>：封装了应用程序的配置信息。</p>
+</li>
+<li><p><strong>page对象</strong>：指向了当前jsp程序本身。</p>
+</li>
+<li><p><strong>session对象</strong>：用来保存会话信息。也就是说，可以实现在同一用户的不同请求之间共享数</p>
+</li>
+<li><p><strong>application对象</strong>：代表了当前应用程序的上下文。可以在不同的用户之间共享信息。</p>
+</li>
+<li><h6 id="pageContext对象：提供了对jsp页面所有对象以及命名空间的访问。"><a href="#pageContext对象：提供了对jsp页面所有对象以及命名空间的访问。" class="headerlink" title="pageContext对象：提供了对jsp页面所有对象以及命名空间的访问。"></a><strong>pageContext对象</strong>：提供了对jsp页面所有对象以及命名空间的访问。</h6></li>
+</ol>
+<h4 id="一-out对象"><a href="#一-out对象" class="headerlink" title="一.out对象"></a>一.out对象</h4><p>out对象是一个输出流，用来向浏览器输出信息，除了输出各种信息外还负责对缓冲区进行管理。</p>
+<p>out对象方法介绍：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>print或println</td>
+<td>输出数据</td>
+</tr>
+<tr>
+<td>newLine</td>
+<td>输出换行字符</td>
+</tr>
+<tr>
+<td>flush</td>
+<td>输出缓冲区数据</td>
+</tr>
+<tr>
+<td>close</td>
+<td>关闭输出流</td>
+</tr>
+<tr>
+<td>clear</td>
+<td>清除缓冲区中数据,但不输出到客户端</td>
+</tr>
+<tr>
+<td>clearBuffer</td>
+<td>清除缓冲区中数据,输出到客户端</td>
+</tr>
+<tr>
+<td>getBufferSize</td>
+<td>获得缓冲区大小</td>
+</tr>
+<tr>
+<td>getRemaining</td>
+<td>获得缓冲区中没有被占用的空间</td>
+</tr>
+<tr>
+<td>isAutoFlush</td>
+<td>是否为自动输出</td>
+</tr>
+</tbody></table>
+<h4 id="二-request对象"><a href="#二-request对象" class="headerlink" title="二.request对象"></a>二.request对象</h4><p>request对象封装了从客户端到服务器发出的请求信息。</p>
+<p>request对象方法介绍：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>isUserInRole</td>
+<td>判断认证后的用户是否属于某一成员组</td>
+</tr>
+<tr>
+<td>getAttribute</td>
+<td>获取指定属性的值,如该属性值不存在返回Null</td>
+</tr>
+<tr>
+<td>getAttributeNames</td>
+<td>获取所有属性名的集合</td>
+</tr>
+<tr>
+<td>getCookies</td>
+<td>获取所有Cookie对象</td>
+</tr>
+<tr>
+<td>getCharacterEncoding</td>
+<td>获取请求的字符编码方式</td>
+</tr>
+<tr>
+<td>getContentLength</td>
+<td>返回请求正文的长度,如不确定返回-1</td>
+</tr>
+<tr>
+<td>getHeader</td>
+<td>获取指定名字报头值</td>
+</tr>
+<tr>
+<td>getHeaders</td>
+<td>获取指定名字报头的所有值,一个枚举</td>
+</tr>
+<tr>
+<td>getHeaderNames</td>
+<td>获取所有报头的名字,一个枚举</td>
+</tr>
+<tr>
+<td>getInputStream</td>
+<td>返回请求输入流,获取请求中的数据</td>
+</tr>
+<tr>
+<td>getMethod</td>
+<td>获取客户端向<a href="http://www.23book.net/Server/Index.htm" target="_blank" rel="noopener">服务器</a>端传送数据的方法</td>
+</tr>
+<tr>
+<td>getParameter</td>
+<td>获取指定名字参数值</td>
+</tr>
+<tr>
+<td>getParameterNames</td>
+<td>获取所有参数的名字,一个枚举</td>
+</tr>
+<tr>
+<td>getParameterValues</td>
+<td>获取指定名字参数的所有值</td>
+</tr>
+<tr>
+<td>getProtocol</td>
+<td>获取客户端向<a href="http://www.23book.net/Server/Index.htm" target="_blank" rel="noopener">服务器</a>端传送数据的协议名称</td>
+</tr>
+<tr>
+<td>getQueryString</td>
+<td>获取以get方法向<a href="http://www.23book.net/Server/Index.htm" target="_blank" rel="noopener">服务器</a>传送的查询字符串</td>
+</tr>
+<tr>
+<td>getRequestURI</td>
+<td>获取发出请求字符串的客户端地址</td>
+</tr>
+<tr>
+<td>getRemoteAddr</td>
+<td>获取客户端的IP地址</td>
+</tr>
+<tr>
+<td>getRemoteHost</td>
+<td>获取客户端的名字</td>
+</tr>
+<tr>
+<td>getSession</td>
+<td>获取和请求相关的会话</td>
+</tr>
+<tr>
+<td>getServerName</td>
+<td>获取<a href="http://www.23book.net/Server/Index.htm" target="_blank" rel="noopener">服务器</a>的名字</td>
+</tr>
+<tr>
+<td>getServerPath</td>
+<td>获取客户端请求文件的路径</td>
+</tr>
+<tr>
+<td>getServerPort</td>
+<td>获取<a href="http://www.23book.net/Server/Index.htm" target="_blank" rel="noopener">服务器</a>的端口号</td>
+</tr>
+<tr>
+<td>removeAttribute</td>
+<td>删除请求中的一个属性</td>
+</tr>
+<tr>
+<td>setAttribute</td>
+<td>设置指定名字参数值</td>
+</tr>
+</tbody></table>
+<p>request对象演示：</p>
+<p>完成一个简单的用户注册信息界面，将注册信息发送到欢迎界面上。</p>
+<p>用户注册界面表单设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;do_register.jsp&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    用户名：</span><br><span class="line">    &lt;input type=&quot;text&quot; name=&quot;userName&quot;&gt;&lt;br&gt;</span><br><span class="line">    技能：</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; name=&quot;skills&quot; value=&quot;java&quot;&gt;java</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; name=&quot;skills&quot; value=&quot;python&quot;&gt;python</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; name=&quot;skills&quot; value=&quot;ruby&quot;&gt;ruby</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; name=&quot;skills&quot; value=&quot;golang&quot;&gt;golang</span><br><span class="line">    &lt;br&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p>用户注册信息处理界面使用getParameter方法将用户的表单信息提取出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String name=request.getParameter(&quot;userName&quot;);</span><br><span class="line">String[] skillArr=request.getParameterValues(&quot;skills&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>将skillArr数组转换成字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String skills=&quot;&quot;;</span><br><span class="line">if (skillArr!=null&amp;&amp;skillArr.length&gt;0)&#123;</span><br><span class="line">    for (String skill:skillArr</span><br><span class="line">         ) &#123;</span><br><span class="line">        skills=skills+skill+&quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将数据使用setAttribute保存起来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">request.setAttribute(&quot;userName&quot;,name);</span><br><span class="line">request.setAttribute(&quot;skills&quot;,skills);</span><br></pre></td></tr></table></figure>
+
+<p>使用jsp的forword指令将页面跳转到welcome.jsp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;jsp:forward page=&quot;welcome.jsp&quot;&gt;&lt;/jsp:forward&gt;</span><br></pre></td></tr></table></figure>
+
+<p>setAttribute和getAttribute用于在web组件之间共享信息<br>getparameter方法用于接收服务器通过set和post方法传输的数据<br>注意没有setparameter方法</p>
+<p>welcome.jsp页面配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;技能展示界面&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">信息展示界面：&lt;br&gt;&lt;br&gt;</span><br><span class="line">&lt;%--&lt;%=%&gt;这是表达式&lt;%%&gt;这是jsp程序处理--%&gt;</span><br><span class="line">姓名：&lt;%=request.getAttribute(&quot;userName&quot;)%&gt;&lt;br&gt;</span><br><span class="line">技能：&lt;%=request.getAttribute(&quot;skills&quot;)%&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://img.blog.csdn.net/20160409211851628?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p> <img src="http://img.blog.csdn.net/20160409211902894?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<h4 id="三-response对象"><a href="#三-response对象" class="headerlink" title="三.response对象"></a>三.response对象</h4><p>response对象主要用于对客户端的请求进行回应。<br>以及处理http的连接信息，例如设置http文件头，设置cookie对象等。</p>
+<p>response对象方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>addCookie</td>
+<td>添加一个Cookie对象</td>
+</tr>
+<tr>
+<td>addHeader</td>
+<td>添加Http文件指定名字头信息</td>
+</tr>
+<tr>
+<td>containsHeader</td>
+<td>判断指定名字Http文件头信息是否存在</td>
+</tr>
+<tr>
+<td>encodeURL</td>
+<td>使用sessionid封装URL</td>
+</tr>
+<tr>
+<td>flushBuffer</td>
+<td>强制把当前缓冲区内容发送到客户端</td>
+</tr>
+<tr>
+<td>getBufferSize</td>
+<td>返回缓冲区大小</td>
+</tr>
+<tr>
+<td>getOutputStream</td>
+<td>返回到客户端的输出流对象</td>
+</tr>
+<tr>
+<td>sendError</td>
+<td>向客户端发送错误信息</td>
+</tr>
+<tr>
+<td>sendRedirect</td>
+<td>把响应发送到另一个位置进行处理</td>
+</tr>
+<tr>
+<td>setContentType</td>
+<td>设置响应的MIME类型</td>
+</tr>
+<tr>
+<td>setHeader</td>
+<td>设置指定名字的Http文件头信息</td>
+</tr>
+</tbody></table>
+<h4 id="四-session对象"><a href="#四-session对象" class="headerlink" title="四.session对象"></a>四.session对象</h4><p>session对象：是一个jsp内置对象，它在第一个jsp被装载时自动创建，完成会话期管理。从一个客户打开浏览器并连接到服务器开始，到客户关闭浏览器离 开这个服务器结束(或者超时)，被称为一个会话。当一个客户访问一个服务器时，可能会在这个服务器的几个页面之间切换，服务器应当通过某种办法知道这是一个客户，就需要创建session对象。</p>
+<p>http是无状态的连接协议，需要使用session来存放用户每次的登陆信息</p>
+<p>session对象方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>getAttribute</td>
+<td>获取指定名字的属性</td>
+</tr>
+<tr>
+<td>getAttributeNames</td>
+<td>获取session中全部属性名字,一个枚举</td>
+</tr>
+<tr>
+<td>getCreationTime</td>
+<td>返回session的创建时间</td>
+</tr>
+<tr>
+<td>getId</td>
+<td>获取会话标识符</td>
+</tr>
+<tr>
+<td>getLastAccessedTime</td>
+<td>返回最后发送请求的时间</td>
+</tr>
+<tr>
+<td>getMaxInactiveInterval</td>
+<td>返回session对象的生存时间单位千分之一秒</td>
+</tr>
+<tr>
+<td>invalidate</td>
+<td>销毁session对象</td>
+</tr>
+<tr>
+<td>isNew</td>
+<td>每个请求是否会产生新的session对象</td>
+</tr>
+<tr>
+<td>removeAttribute</td>
+<td>删除指定名字的属性</td>
+</tr>
+<tr>
+<td>setAttribute</td>
+<td>设定指定名字的属性值</td>
+</tr>
+</tbody></table>
+<p>接下来通过一个登陆的小例子来演示下session对象的应用：</p>
+<p>登陆表单设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;do_login.jsp&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    userName:&lt;input type=&quot;text&quot; name=&quot;userName&quot;&gt;&lt;br/&gt;</span><br><span class="line">    password:&lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;&lt;br/&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;submit&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;reset&quot; value=&quot;reset&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p>登陆逻辑处理界面，使用getParameter获取到用户名和密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String userName=request.getParameter(&quot;userName&quot;);</span><br><span class="line">String password=request.getParameter(&quot;password&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>对用户名和密码进行判断：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (userName!=null&amp;&amp;password!=null)&#123;</span><br><span class="line">    session.setAttribute(&quot;userName&quot;,userName);</span><br><span class="line">    response.setHeader(&quot;refresh&quot;,&quot;2;URL=welcome.jsp&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在欢迎界面使用getAttribute获取当前的用户名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;%if(session.getAttribute(&quot;userName&quot;)!=null)&#123;%&gt;</span><br><span class="line">&lt;%--getAttribute方法是使用指定的key获取session中的value值。获取到的是一个object对象</span><br><span class="line">在使用的时候需要根据具体的类型进行类型转换。</span><br><span class="line">这里取出的是一个字符串，直接调用会使用他的toString方法，因此不用进行转换--%&gt;</span><br><span class="line">欢迎 &lt;%=session.getAttribute(&quot;userName&quot;)%&gt;</span><br><span class="line">&lt;a href=&quot;logout.jsp&quot;&gt;注销&lt;/a&gt;</span><br><span class="line">&lt;%&#125;else&#123;%&gt;</span><br><span class="line">请先登陆</span><br><span class="line">&lt;a href=&quot;login.jsp&quot;&gt;登陆&lt;/a&gt;</span><br><span class="line">&lt;%&#125;%&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>判断session对象是否是新创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;%if (session.isNew())&#123;%&gt;</span><br><span class="line"></span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">欢迎新用户</span><br><span class="line">&lt;%&#125;else&#123;%&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">&lt;br/&gt;</span><br><span class="line">欢迎老用户</span><br><span class="line">&lt;%&#125;%&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在登出界面里清除session对象信息，并跳转到欢迎界面中去：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session.invalidate();//清除掉session对象</span><br><span class="line">response.setHeader(&quot;refresh&quot;,&quot;2;URL=welcome.jsp&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://blog.csdn.net/icarus_wang/article/details/51107771" alt="阅读更多…"></p>
+<p><img src="http://img.blog.csdn.net/20160409214922437?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
+<p><img src="http://img.blog.csdn.net/20160409214934765?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
+<h4 id="五-application对象"><a href="#五-application对象" class="headerlink" title="五.application对象"></a>五.application对象</h4><p>application对象代表当前的应用程序。存在于服务器的内存空间中。<br>应用一旦启动便会自动生成一个application对象。如果应用没有被关闭，<br>此application对象便一直会存在。直到应用被关闭<br>application的生命周期比session更长。<br>应用：<br>为多个用户共享全局信息。比如当前的在线人数等。</p>
+<p>application对象方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>getAttribute</td>
+<td>获取应用对象中指定名字的属性值</td>
+</tr>
+<tr>
+<td>getAttributeNames</td>
+<td>获取应用对象中所有属性的名字,一个枚举</td>
+</tr>
+<tr>
+<td>getInitParameter</td>
+<td>返回应用对象中指定名字的初始参数值</td>
+</tr>
+<tr>
+<td>getServletInfo</td>
+<td>返回Servlet编译器中当前版本信息</td>
+</tr>
+<tr>
+<td>setAttribute</td>
+<td>设置应用对象中指定名字的属性值</td>
+</tr>
+</tbody></table>
+<p>可以使用application对象来实现页面访问次数记录的功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    Object obj=application.getAttribute(&quot;counter&quot;);</span><br><span class="line">    if (obj==null)&#123;</span><br><span class="line">        application.setAttribute(&quot;counter&quot;,new Integer(1));</span><br><span class="line">        out.println(&quot;该页面被访问了1次&lt;br/&gt;&quot;);</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        int countValue=new Integer(obj.toString());</span><br><span class="line">        countValue++;</span><br><span class="line">        out.println(&quot;该页面被访问了&quot;+countValue+&quot;次&lt;br/&gt;&quot;);</span><br><span class="line">        application.setAttribute(&quot;counter&quot;,countValue);//java会自动装箱</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="六-config对象"><a href="#六-config对象" class="headerlink" title="六.config对象"></a>六.config对象</h4><p>config对象表示当前jsp程序的配置信息<br>一般项目中，jsp被用作模版技术，也就是位于表示层<br>而位于表示层的jsp文件一般是不需要配置信息的<br>所以此对象在jsp程序中其实很少使用<br>config对象是servletConfig类的一个实例。</p>
+<p>config对象方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>getServletContext</td>
+<td>返回所执行的Servlet的环境对象</td>
+</tr>
+<tr>
+<td>getServletName</td>
+<td>返回所执行的Servlet的名字</td>
+</tr>
+<tr>
+<td>getInitParameter</td>
+<td>返回指定名字的初始参数值</td>
+</tr>
+<tr>
+<td>getInitParameterNames</td>
+<td>返回该JSP中所有的初始参数名,一个枚举</td>
+</tr>
+</tbody></table>
+<h4 id="七-page对象"><a href="#七-page对象" class="headerlink" title="七.page对象"></a>七.page对象</h4><p>page对象有点类似与java编程中的this指针，他指向了当前jsp页面本身。<br>page对象是java.lang.object类的一个实例</p>
+<p>page对象拥有一个toString方法，下面是官方定义的方法介绍：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public String toString() &#123;</span><br><span class="line">    return getClass().getName() + &quot;@&quot; + Integer.toHexString(hashCode());</span><br><span class="line">&#125;</span><br><span class="line">包名+类名+@+hashcode值</span><br></pre></td></tr></table></figure>
+
+
+
+<p>page对象的方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>toString</td>
+<td>将当前项目的信息打印出来</td>
+</tr>
+<tr>
+<td>getClass</td>
+<td>返回当前的object类</td>
+</tr>
+<tr>
+<td>hashCode</td>
+<td>返回page对象的hashCode值</td>
+</tr>
+<tr>
+<td>equals</td>
+<td>用于比较对象是否与当前对象相同</td>
+</tr>
+</tbody></table>
+<h4 id="八-exception对象"><a href="#八-exception对象" class="headerlink" title="八.exception对象"></a>八.exception对象</h4><p>exception对象表示jsp引擎在执行代码时抛出的异常<br>如果想要使用exception对象，那么需要配置编译指令的isErrorPage属性为true</p>
+<p>即在页面指令中设置:&lt;%@page isErrorPage=“true”%&gt;</p>
+<h4 id="九：pageContext对象"><a href="#九：pageContext对象" class="headerlink" title="九：pageContext对象"></a>九：pageContext对象</h4><p>pageContetx对象是jsp页面中所有对象功能的最大集成着。<br>使用他可以访问所有的jsp内置对象。</p>
+<p>pageContext对象方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>forward</td>
+<td>重定向到另一页面或Servlet组件</td>
+</tr>
+<tr>
+<td>getAttribute</td>
+<td>获取某范围中指定名字的属性值</td>
+</tr>
+<tr>
+<td>findAttribute</td>
+<td>按范围搜索指定名字的属性</td>
+</tr>
+<tr>
+<td>removeAttribute</td>
+<td>删除某范围中指定名字的属性</td>
+</tr>
+<tr>
+<td>setAttribute</td>
+<td>设定某范围中指定名字的属性值</td>
+</tr>
+<tr>
+<td>getException</td>
+<td>返回当前异常对象</td>
+</tr>
+<tr>
+<td>getRequest</td>
+<td>返回当前请求对象</td>
+</tr>
+<tr>
+<td>getResponse</td>
+<td>返回当前响应对象</td>
+</tr>
+<tr>
+<td>getServletConfig</td>
+<td>返回当前页面的ServletConfig对象</td>
+</tr>
+<tr>
+<td>getServletContext</td>
+<td>返回所有页面共享的ServletContext对象</td>
+</tr>
+<tr>
+<td>getSession</td>
+<td>返回当前页面的会话对象</td>
+</tr>
+</tbody></table>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://yoursite.com">LZ</a>
+            <p>原文链接：<a href="http://yoursite.com/2019/11/03/JSP%E4%B9%9D%E5%A4%A7%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1/">http://yoursite.com/2019/11/03/JSP%E4%B9%9D%E5%A4%A7%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1/</a>
+            <p>发表日期：<a href="http://yoursite.com/2019/11/03/JSP%E4%B9%9D%E5%A4%A7%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1/">十一月 3日 2019, 10:25:54 上午</a>
+            <p>更新日期：<a href="http://yoursite.com/2019/11/03/JSP%E4%B9%9D%E5%A4%A7%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1/">November 3rd 2019, 10:25:54 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/11/03/ajax%E8%AF%B7%E6%B1%82%E7%9A%84%E4%BA%94%E4%B8%AA%E6%AD%A5%E9%AA%A4/" title= "ajax请求的五个步骤">
+                    <div class="nextTitle">ajax请求的五个步骤</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/10/31/Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/" title= "Vue框架详解">
+                    <div class="prevTitle">Vue框架详解</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:12345@qq.com" target="_blank" rel="noopener" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JSP九大内置对象详解"><span class="toc-number">1.</span> <span class="toc-text">JSP九大内置对象详解</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#四种属性范围"><span class="toc-number">1.0.1.</span> <span class="toc-text">四种属性范围:</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Request常用的方法："><span class="toc-number">1.1.</span> <span class="toc-text">Request常用的方法：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-number">2.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1、request对象"><span class="toc-number">3.</span> <span class="toc-text">1、request对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、response对象"><span class="toc-number">4.</span> <span class="toc-text">2、response对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、session对象"><span class="toc-number">5.</span> <span class="toc-text">3、session对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、application对象"><span class="toc-number">6.</span> <span class="toc-text">4、application对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、out-对象"><span class="toc-number">7.</span> <span class="toc-text">5、out 对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、pageContext-对象"><span class="toc-number">8.</span> <span class="toc-text">6、pageContext 对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7、config-对象"><span class="toc-number">9.</span> <span class="toc-text">7、config 对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8、page-对象"><span class="toc-number">10.</span> <span class="toc-text">8、page 对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9、exception-对象"><span class="toc-number">11.</span> <span class="toc-text">9、exception 对象</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#pageContext对象：提供了对jsp页面所有对象以及命名空间的访问。"><span class="toc-number">11.0.0.1.</span> <span class="toc-text">pageContext对象：提供了对jsp页面所有对象以及命名空间的访问。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一-out对象"><span class="toc-number">11.1.</span> <span class="toc-text">一.out对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二-request对象"><span class="toc-number">11.2.</span> <span class="toc-text">二.request对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三-response对象"><span class="toc-number">11.3.</span> <span class="toc-text">三.response对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四-session对象"><span class="toc-number">11.4.</span> <span class="toc-text">四.session对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#五-application对象"><span class="toc-number">11.5.</span> <span class="toc-text">五.application对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#六-config对象"><span class="toc-number">11.6.</span> <span class="toc-text">六.config对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#七-page对象"><span class="toc-number">11.7.</span> <span class="toc-text">七.page对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#八-exception对象"><span class="toc-number">11.8.</span> <span class="toc-text">八.exception对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#九：pageContext对象"><span class="toc-number">11.9.</span> <span class="toc-text">九：pageContext对象</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 6
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/JSP%E4%B9%9D%E5%A4%A7%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1/" >JSP九大内置对象</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%EF%BC%88JVM%EF%BC%89%E4%BD%A0%E5%8F%AA%E8%A6%81%E7%9C%8B%E8%BF%99%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86%EF%BC%81/" >Java虚拟机（JVM）你只要看这一篇就够了！</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/11/03/web%E5%89%8D%E7%AB%AF%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B8%89%E5%A4%A7%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6/" >web前端常用的三大主流框架</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/11/03/ajax%E8%AF%B7%E6%B1%82%E7%9A%84%E4%BA%94%E4%B8%AA%E6%AD%A5%E9%AA%A4/" >ajax请求的五个步骤</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/31</span><a class="archive-post-title" href= "/2019/10/31/Vue%E6%A1%86%E6%9E%B6%E8%AF%A6%E8%A7%A3/" >Vue框架详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/31</span><a class="archive-post-title" href= "/2019/10/31/%E5%85%B3%E4%BA%8EHTTP%E4%BD%A0%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84/" >关于HTTP你需要了解的</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "LZ"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
